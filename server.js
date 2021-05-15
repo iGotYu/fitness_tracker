@@ -1,10 +1,8 @@
 const express = require('express');
-const routes = require('routes');
+const apiRoutes = require('./controllers');
 const logger = require('morgan');
 const path = require('path');
-const mongoose = require('mongoose');
-
-const db = require('./models/db');
+const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 3000;
 
@@ -12,7 +10,7 @@ const app = express();
 
 app.use(logger("dev"));
 
-app.use(express.urlencoded({extend:true}));
+app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
 app.use(express.static("public"));
@@ -27,8 +25,10 @@ mongoose.connect(
     }
 );
 
+app.use(apiRoutes);
+
 app.get("/", (req, res) => {
-    res.sendFile('/index.html')
+    res.sendFile(path.join(__dirname,'/index.html'));
 })
 
 app.get("/exercise", (req, res)=>{
