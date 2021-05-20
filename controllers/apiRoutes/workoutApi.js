@@ -38,7 +38,7 @@ router.get("/range", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const newWorkout = await db.Workout.create({});
+    const newWorkout = await Workout.create({});
     res.status(200).json(newWorkout);
   } catch (err) {
     res.status(500).json(err);
@@ -47,14 +47,14 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const newExercise = await db.Exercise.create(req.body);
+    // const newExercise = await db.Exercise.create(req.body);
 
-    const updateWorkout = await db.Workout.findOneAndUpdate(
+    const updateWorkout = await Workout.findOneAndUpdate(
       {
         _id: req.params.id,
       },
       {
-        $push: { exercises: newExercise._id },
+        $push: { exercises: req.body },
       },
       {
         new: true,
